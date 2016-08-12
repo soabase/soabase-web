@@ -2,6 +2,7 @@ package io.soabase.web.assets;
 
 import com.github.jknack.handlebars.io.FileTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateSource;
+import com.google.common.collect.Maps;
 import io.soabase.web.WebConfiguration;
 import java.io.File;
 import java.io.IOException;
@@ -12,14 +13,13 @@ import java.util.concurrent.ConcurrentMap;
 class WebFileTemplateLoader extends FileTemplateLoader implements WebTemplateLoader
 {
     private final WebConfiguration configuration;
-    private final ConcurrentMap<String, TemplateSource> sourceCache;
+    private final ConcurrentMap<String, TemplateSource> sourceCache = Maps.newConcurrentMap();
     private final File assetsDir;
 
-    public WebFileTemplateLoader(WebConfiguration configuration, ConcurrentMap<String, TemplateSource> sourceCache, File assetsDir)
+    WebFileTemplateLoader(WebConfiguration configuration, File assetsDir)
     {
         super(assetsDir, "");
         this.configuration = configuration;
-        this.sourceCache = sourceCache;
         this.assetsDir = assetsDir;
     }
 

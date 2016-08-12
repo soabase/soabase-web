@@ -15,27 +15,11 @@
  */
 package io.soabase.web;
 
-import com.google.common.collect.Sets;
-import javax.validation.constraints.NotNull;
-import java.io.File;
-import java.util.Set;
+import java.util.Optional;
 
-public class WebConfiguration
+public interface ConfigAccessor<T>
 {
-    public boolean debug = false;
+    WebConfiguration getAppConfiguration(T configuration);
 
-    @NotNull
-    public String defaultFile = "/main.html";
-
-    @NotNull
-    public String uriPath = "/web";
-
-    @NotNull
-    public Set<String> templateExtensions = Sets.newHashSet("js", "html", "htm", "css");
-
-    @NotNull
-    public String textDir = "text";
-
-    @NotNull
-    public File assetsFile = null;
+    Optional<WebConfiguration> getAdminConfiguration(T configuration);
 }

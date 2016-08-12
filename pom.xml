@@ -11,7 +11,7 @@
     <version>0.1.1-SNAPSHOT</version>
 
     <properties>
-        <handlebars-version>4.0.1</handlebars-version>
+        <handlebars-version>4.0.6</handlebars-version>
     </properties>
 
     <scm>
@@ -27,11 +27,6 @@
     </issueManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>io.soabase</groupId>
-            <artifactId>soabase-core</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-core</artifactId>

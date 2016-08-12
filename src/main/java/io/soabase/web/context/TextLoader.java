@@ -1,4 +1,19 @@
-package io.soabase.web.assets;
+/**
+ * Copyright 2016 Jordan Zimmerman
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package io.soabase.web.context;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
@@ -19,24 +34,22 @@ import java.util.stream.StreamSupport;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-public class TextLoader
+class TextLoader
 {
     private final Map<String, Map<String, String>> text;
-    private final String textDir;
 
-    public TextLoader(File assets, String textDir)
+    TextLoader(File assets, String textDir)
     {
-        text = assets.isDirectory() ? loadTextFromDir(assets) : loadTextFromZip(assets);
-        this.textDir = textDir;
+        text = assets.isDirectory() ? loadTextFromDir(assets, textDir) : loadTextFromZip(assets, textDir);
     }
 
-    public Map<String, String> getFor(String languageCode)
+    Map<String, String> getFor(String languageCode)
     {
         Map<String, String> values = text.get(languageCode);
         return (values != null) ? values : ImmutableMap.of();
     }
 
-    private Map<String, Map<String, String>> loadTextFromZip(File assetsFile)
+    private Map<String, Map<String, String>> loadTextFromZip(File assetsFile, String textDir)
     {
         Map<String, Map<String, String>> text = Maps.newHashMap();
         try
@@ -63,7 +76,7 @@ public class TextLoader
         return text;
     }
 
-    private Map<String, Map<String, String>> loadTextFromDir(File assetsDir)
+    private Map<String, Map<String, String>> loadTextFromDir(File assetsDir, String textDir)
     {
         File dir = new File(assetsDir, textDir);
         return StreamSupport.stream(Files.fileTreeTraverser().children(dir).spliterator(), false)

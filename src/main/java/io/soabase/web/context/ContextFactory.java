@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.soabase.web;
+package io.soabase.web.context;
 
-import com.github.jknack.handlebars.Context;
 import javax.servlet.http.HttpServletRequest;
 
 public interface ContextFactory
 {
-    Context getContext(HttpServletRequest request);
+    Object getModel(HttpServletRequest request);
+
+    String getLanguageCode(HttpServletRequest request);
 }

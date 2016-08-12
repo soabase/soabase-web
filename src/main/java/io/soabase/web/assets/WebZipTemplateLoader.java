@@ -2,6 +2,7 @@ package io.soabase.web.assets;
 
 import com.github.jknack.handlebars.io.TemplateSource;
 import com.github.jknack.handlebars.io.URLTemplateLoader;
+import com.google.common.collect.Maps;
 import io.soabase.web.WebConfiguration;
 import java.io.File;
 import java.io.IOException;
@@ -13,13 +14,12 @@ import java.util.concurrent.ConcurrentMap;
 class WebZipTemplateLoader extends URLTemplateLoader implements WebTemplateLoader
 {
     private final WebConfiguration configuration;
-    private final ConcurrentMap<String, TemplateSource> sourceCache;
+    private final ConcurrentMap<String, TemplateSource> sourceCache = Maps.newConcurrentMap();
     private final URLClassLoader classLoader;
 
-    public WebZipTemplateLoader(WebConfiguration configuration, ConcurrentMap<String, TemplateSource> sourceCache, File zipFile)
+    WebZipTemplateLoader(WebConfiguration configuration, File zipFile)
     {
         this.configuration = configuration;
-        this.sourceCache = sourceCache;
         URLClassLoader classLoader;
         try
         {

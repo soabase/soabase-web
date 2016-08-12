@@ -3,4 +3,16 @@
 
 # soabase-web
 
-Dropwizard/Soabase extension to support multi-language web apps using Handlebars
+Soabase Web is a [Dropwizard](http://www.dropwizard.io) that enables easy serving of multi-language web apps using the Java version of [Handlebars](https://github.com/jknack/handlebars.java) with the following features:
+
+* Can serve from a directory or a ZIP/JAR file
+  * Serving from a directory makes development simpler
+  * Serving from a ZIP/JAR makes production deployment/management easier
+* Can serve a main application and, optionally, a separate admin application
+* Two modes:
+  * Development - application assets are reloaded on each request for real-time development
+  * Production - application assets are cached using Dropwizard's standard `CachedAsset`
+* Supports multi-language subsitutions using Handlebars templates
+* Optional Root filter that redirects from "/" to the configured main page
+* Optional Language filter for managing page language via a cookie
+

@@ -31,4 +31,7 @@ public class WebConfiguration
 
     @NotNull
     public Set<String> templateExtensions = Sets.newHashSet("js", "html", "htm", "css");
+
+    @NotNull
+    public String textDir = "text";
 }

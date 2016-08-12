@@ -101,7 +101,7 @@ public class AssetsCommand<T extends Configuration> extends ServerCommand<T>
         {
             super("/", configuration.uriPath, configuration.defaultFile.substring(1), Charsets.UTF_8);
             this.configuration = configuration;
-            textLoader = new TextLoader(assetsFile);
+            textLoader = new TextLoader(assetsFile, configuration.textDir);
 
             templateLoader = assetsFile.isFile() ? new WebZipTemplateLoader(configuration, sourceCache, assetsFile) : new WebFileTemplateLoader(configuration, sourceCache, assetsFile);
             handlebars = new Handlebars(templateLoader);

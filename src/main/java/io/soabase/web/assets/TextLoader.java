@@ -21,13 +21,13 @@ import java.util.zip.ZipFile;
 
 public class TextLoader
 {
-    public static final String TEXT_DIR = "text";
-
     private final Map<String, Map<String, String>> text;
+    private final String textDir;
 
-    public TextLoader(File assets)
+    public TextLoader(File assets, String textDir)
     {
         text = assets.isDirectory() ? loadTextFromDir(assets) : loadTextFromZip(assets);
+        this.textDir = textDir;
     }
 
     public Map<String, String> getFor(String languageCode)
@@ -47,7 +47,7 @@ public class TextLoader
             {
                 ZipEntry entry = entries.nextElement();
                 File entryFile = new File(entry.getName());
-                if ( !entry.isDirectory() && TEXT_DIR.equals(entryFile.getParent()) )
+                if ( !entry.isDirectory() && textDir.equals(entryFile.getParent()) )
                 {
                     try ( InputStream stream = zipFile.getInputStream(entry) )
                     {
@@ -65,7 +65,7 @@ public class TextLoader
 
     private Map<String, Map<String, String>> loadTextFromDir(File assetsDir)
     {
-        File dir = new File(assetsDir, TEXT_DIR);
+        File dir = new File(assetsDir, textDir);
         return StreamSupport.stream(Files.fileTreeTraverser().children(dir).spliterator(), false)
             .map(file -> new AbstractMap.SimpleEntry<>(getKey(file.getName()), read(file)))
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));

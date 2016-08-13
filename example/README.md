@@ -1,8 +1,8 @@
-### Soabase Web Example
+## Soabase Web Example
 
 This is a simple web example showing the features of Soabase Web.
 
-### Building/Running
+## Building/Running
 
 * Clone the Soabase Web project: `git clone https://github.com/soabase/soabase-web.git`
 * Change to the examples directory: `cd soabase-web/examples`

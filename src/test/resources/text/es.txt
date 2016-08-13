@@ -1,0 +1,9 @@
+appTitle        Soabase Web
+mainHeading     Este es el ejemplo de aplicación Soabase Web
+description     Esta aplicación trivial muestra cómo utilizar varios idiomas y algunas de las otras características de Soabase Web. P.ej. haga clic en uno de los botones de idioma para cambiar el idioma de la aplicación.
+description2    Haga clic en la pestaña de mapa para ver una imagen específica idioma.
+english         Inglés
+spanish         Español
+home            Inicio
+map             Mapa
+changeMsg       Cambiar el idioma de una imagen diferente

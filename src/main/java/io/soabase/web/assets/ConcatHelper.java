@@ -23,6 +23,10 @@ public class ConcatHelper implements Helper<String>
         {
             baseDir += "/";
         }
+        if ( !baseDir.startsWith("/") )
+        {
+            baseDir = "/" + baseDir;
+        }
         for ( Object spec : options.params )
         {
             Template template = templateFunction.apply(baseDir + spec);

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.soabase.web;
+package io.soabase.web.config;
 
 import java.util.Optional;
 

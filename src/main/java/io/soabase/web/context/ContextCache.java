@@ -31,13 +31,13 @@ public class ContextCache
     public ContextCache(ContextFactory contextFactory, File assets, String textDir, boolean debug)
     {
         this.contextFactory = contextFactory;
-        this.textLoader = new TextLoader(assets, textDir);
+        this.textLoader = new TextLoader(assets, textDir, debug);
         this.debug = debug;
     }
 
-    public Context getContext(HttpServletRequest request)
+    public Context getContext(HttpServletRequest request, String languageCode)
     {
-        HostLanguage hostLanguage = new HostLanguage(request.getServerName(), contextFactory.getLanguageCode(request));
+        HostLanguage hostLanguage = new HostLanguage(request.getServerName(), languageCode);
         if ( debug )
         {
             return makeLanguageContext(request, hostLanguage);
@@ -47,7 +47,7 @@ public class ContextCache
 
     private Context makeLanguageContext(HttpServletRequest request, HostLanguage hostLanguage)
     {
-        Context context = Context.newContext(contextFactory.getModel(request));
+        Context context = Context.newContext(contextFactory.getModel(request, hostLanguage.getLanguage()));
         return Context.newContext(context, textLoader.getFor(hostLanguage.getLanguage()));
     }
 }

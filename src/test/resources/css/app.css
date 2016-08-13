@@ -1,0 +1,12 @@
+body {
+    padding-top: 50px;
+}
+
+.app-main, .app-map {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+.app-main p {
+    text-align: left;
+}

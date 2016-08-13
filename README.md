@@ -15,4 +15,3 @@ Soabase Web is a [Dropwizard](http://www.dropwizard.io) that enables easy servin
 * Supports multi-language subsitutions using Handlebars templates
 * Optional Root filter that redirects from "/" to the configured main page
 * Optional Language filter for managing page language via a cookie
-

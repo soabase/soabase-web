@@ -17,9 +17,8 @@ package io.soabase.web.context;
 
 import javax.servlet.http.HttpServletRequest;
 
+@FunctionalInterface
 public interface ContextFactory
 {
-    Object getModel(HttpServletRequest request);
-
-    String getLanguageCode(HttpServletRequest request);
+    Object getModel(HttpServletRequest request, String languageCode);
 }

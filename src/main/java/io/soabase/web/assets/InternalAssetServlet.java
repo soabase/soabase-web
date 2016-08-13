@@ -9,42 +9,59 @@ import com.google.common.io.CharStreams;
 import com.google.common.io.Files;
 import com.google.common.net.MediaType;
 import io.dropwizard.servlets.assets.AssetServlet;
-import io.soabase.web.WebConfiguration;
+import io.soabase.web.config.WebConfiguration;
 import io.soabase.web.context.ContextCache;
 import io.soabase.web.context.ContextFactory;
+import io.soabase.web.language.RequestLanguage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
 import java.util.concurrent.ConcurrentMap;
 
-class InternalAssetServlet extends AssetServlet
+public class InternalAssetServlet extends AssetServlet
 {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final WebConfiguration configuration;
+    private final RequestLanguage requestLanguage;
     private final Handlebars handlebars;
     private final ConcurrentMap<String, Template> templateCache = Maps.newConcurrentMap();
     private final WebTemplateLoader templateLoader;
     private final ContextCache contextCache;
 
-    InternalAssetServlet(WebConfiguration configuration, ContextFactory contextFactory)
+    public InternalAssetServlet(WebConfiguration configuration, ContextFactory contextFactory, RequestLanguage requestLanguage)
     {
         super("/", configuration.uriPath, configuration.defaultFile.substring(1), Charsets.UTF_8);
         this.configuration = configuration;
+        this.requestLanguage = requestLanguage;
 
-        templateLoader = configuration.assetsFile.isFile() ? new WebZipTemplateLoader(configuration, configuration.assetsFile) : new WebFileTemplateLoader(configuration, configuration.assetsFile);
+        File assetsFile;
+        try
+        {
+            assetsFile = configuration.assetsFile.getCanonicalFile();
+            if ( !assetsFile.exists() )
+            {
+                throw new RuntimeException("File doesn't exist: " + assetsFile);
+            }
+        }
+        catch ( IOException e )
+        {
+            throw new RuntimeException("Could not resolve: " + configuration.assetsFile);
+        }
+        templateLoader = assetsFile.isFile() ? new WebZipTemplateLoader(configuration, assetsFile) : new WebFileTemplateLoader(configuration, assetsFile);
         handlebars = new Handlebars(templateLoader);
         StringHelpers.register(handlebars);
         handlebars.registerHelper("concat", new ConcatHelper(this::getTemplate));
 
-        contextCache = new ContextCache(contextFactory, configuration.assetsFile, configuration.textDir, configuration.debug);
+        contextCache = new ContextCache(contextFactory, assetsFile, configuration.textDir, configuration.debug);
     }
 
-    Handlebars getHandlebars()
+    public Handlebars getHandlebars()
     {
         return handlebars;
     }
@@ -69,7 +86,7 @@ class InternalAssetServlet extends AssetServlet
         try
         {
             Template template = getTemplate(path);
-            String content = template.apply(contextCache.getContext(request));
+            String content = template.apply(contextCache.getContext(request, requestLanguage.getLanguageCode(request)));
             String mimeTypeOfExtension = request.getServletContext().getMimeType(request.getRequestURI());
             MediaType mediaType = MediaType.parse(mimeTypeOfExtension);
             response.setContentType(mediaType.type() + '/' + mediaType.subtype());

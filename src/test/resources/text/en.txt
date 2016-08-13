@@ -1,0 +1,9 @@
+appTitle        Soabase Web
+mainHeading     This is the Soabase Web Example Application
+description     This trivial app shows how to use multiple languages and some of the other features of Soabase Web. E.g. click one of the language buttons to change the language of the app.
+description2    Click on the Map tab to see a language specific image.
+english         English
+spanish         Spanish
+home            Home
+map             Map
+changeMsg       Change the language for a different image

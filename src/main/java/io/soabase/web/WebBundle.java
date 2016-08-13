@@ -1,4 +1,4 @@
-package io.soabase.web.assets;
+package io.soabase.web;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.google.common.base.Preconditions;
@@ -7,10 +7,12 @@ import io.dropwizard.ConfiguredBundle;
 import io.dropwizard.jetty.setup.ServletEnvironment;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import io.soabase.web.ConfigAccessor;
-import io.soabase.web.RootFilter;
-import io.soabase.web.WebConfiguration;
+import io.soabase.web.assets.InternalAssetServlet;
+import io.soabase.web.config.ConfigAccessor;
+import io.soabase.web.config.WebConfiguration;
 import io.soabase.web.context.ContextFactory;
+import io.soabase.web.filters.RootFilter;
+import io.soabase.web.language.RequestLanguage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.servlet.DispatcherType;
@@ -23,6 +25,7 @@ public class WebBundle<T extends Configuration> implements ConfiguredBundle<T>
     private final ContextFactory contextFactory;
     private final ConfigAccessor<T> configAccessor;
     private volatile InternalAssetServlet assetServlet;
+    private volatile RequestLanguage requestLanguage;
 
     public WebBundle(ContextFactory contextFactory, ConfigAccessor<T> configAccessor)
     {
@@ -36,12 +39,6 @@ public class WebBundle<T extends Configuration> implements ConfiguredBundle<T>
         // NOP
     }
 
-    public Handlebars getHandlebars()
-    {
-        Preconditions.checkNotNull(assetServlet, "run() has not been called yet");
-        return assetServlet.getHandlebars();
-    }
-
     @Override
     public void run(T configuration, Environment environment) throws Exception
     {
@@ -53,14 +50,27 @@ public class WebBundle<T extends Configuration> implements ConfiguredBundle<T>
         }
     }
 
-    private void addServlet(Environment environment, WebConfiguration configuration, boolean isAdmin)
+    public Handlebars getHandlebars()
     {
-        Preconditions.checkArgument(configuration.assetsFile.exists(), configuration.assetsFile + " does not exist");
-
-        assetServlet = new InternalAssetServlet(configuration, contextFactory);
-        ServletEnvironment servlets = isAdmin ? environment.admin() : environment.servlets();
-        servlets.addServlet("assets", assetServlet).addMapping(configuration.uriPath + "/*");
-        servlets.addFilter("root", new RootFilter(configuration.uriPath + configuration.defaultFile)).addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/");
+        Preconditions.checkNotNull(assetServlet, "Handlebars not available until run() has been called");
+        return assetServlet.getHandlebars();
     }
 
+    public RequestLanguage getRequestLanguage()
+    {
+        Preconditions.checkNotNull(requestLanguage, "RequestLanguage not available until run() has been called");
+        return requestLanguage;
+    }
+
+    private void addServlet(Environment environment, WebConfiguration configuration, boolean isAdmin)
+    {
+        ServletEnvironment servlets = isAdmin ? environment.admin() : environment.servlets();
+        requestLanguage = configuration.requestLanguage.buildAndInstall(environment, servlets);
+        assetServlet = new InternalAssetServlet(configuration, contextFactory, requestLanguage);
+        servlets.addServlet("soabase-web-asset-servlet", assetServlet).addMapping(configuration.uriPath + "/*");
+        if ( configuration.addRootFilter )
+        {
+            servlets.addFilter("soabase-web-root-filter", new RootFilter(configuration.uriPath + configuration.defaultFile)).addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/");
+        }
+    }
 }

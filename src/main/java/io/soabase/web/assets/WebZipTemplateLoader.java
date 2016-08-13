@@ -3,7 +3,7 @@ package io.soabase.web.assets;
 import com.github.jknack.handlebars.io.TemplateSource;
 import com.github.jknack.handlebars.io.URLTemplateLoader;
 import com.google.common.collect.Maps;
-import io.soabase.web.WebConfiguration;
+import io.soabase.web.config.WebConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;

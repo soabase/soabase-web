@@ -37,19 +37,29 @@ import java.util.zip.ZipFile;
 class TextLoader
 {
     private final Map<String, Map<String, String>> text;
+    private final File assetsFile;
+    private final String textDir;
 
-    TextLoader(File assets, String textDir)
+    TextLoader(File assetsFile, String textDir, boolean debug)
     {
-        text = assets.isDirectory() ? loadTextFromDir(assets, textDir) : loadTextFromZip(assets, textDir);
+        this.assetsFile = assetsFile;
+        this.textDir = textDir;
+        text = debug ? null : loadText();
     }
 
     Map<String, String> getFor(String languageCode)
     {
-        Map<String, String> values = text.get(languageCode);
+        Map<String, Map<String, String>> localText = (text != null) ? text : loadText();
+        Map<String, String> values = localText.get(languageCode);
         return (values != null) ? values : ImmutableMap.of();
     }
 
-    private Map<String, Map<String, String>> loadTextFromZip(File assetsFile, String textDir)
+    private Map<String, Map<String, String>> loadText()
+    {
+        return assetsFile.isDirectory() ? loadTextFromDir() : loadTextFromZip();
+    }
+
+    private Map<String, Map<String, String>> loadTextFromZip()
     {
         Map<String, Map<String, String>> text = Maps.newHashMap();
         try
@@ -76,9 +86,9 @@ class TextLoader
         return text;
     }
 
-    private Map<String, Map<String, String>> loadTextFromDir(File assetsDir, String textDir)
+    private Map<String, Map<String, String>> loadTextFromDir()
     {
-        File dir = new File(assetsDir, textDir);
+        File dir = new File(assetsFile, textDir);
         return StreamSupport.stream(Files.fileTreeTraverser().children(dir).spliterator(), false)
             .map(file -> new AbstractMap.SimpleEntry<>(getKey(file.getName()), read(file)))
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));

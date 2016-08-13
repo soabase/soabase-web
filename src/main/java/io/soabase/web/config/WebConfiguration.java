@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.soabase.web;
+package io.soabase.web.config;
 
 import com.google.common.collect.Sets;
+import io.soabase.web.language.DefaultRequestLanguageFactory;
+import io.soabase.web.language.RequestLanguageFactory;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.util.Set;
@@ -25,17 +28,23 @@ public class WebConfiguration
     public boolean debug = false;
 
     @NotNull
-    public String defaultFile = "/main.html";
+    public String defaultFile = "/index.html";
 
     @NotNull
     public String uriPath = "/web";
 
     @NotNull
-    public Set<String> templateExtensions = Sets.newHashSet("js", "html", "htm", "css");
+    public Set<String> templateExtensions = Sets.newHashSet("js", "html", "htm", "css", "template");
 
     @NotNull
     public String textDir = "text";
 
     @NotNull
     public File assetsFile = null;
+
+    public boolean addRootFilter = true;
+
+    @NotNull
+    @Valid
+    public RequestLanguageFactory requestLanguage = new DefaultRequestLanguageFactory();
 }

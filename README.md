@@ -18,4 +18,13 @@ Soabase Web is a [Dropwizard](http://www.dropwizard.io) that enables easy servin
 
 ## Example
 
-See the [Example](example) for an annotated example of using Soabase Web
+See the [Example](example) for an annotated example of using Soabase Web.
+
+## Usage
+
+Soabase Web is available from Maven Central:
+
+* GroupId - `io.soabase`
+* ArtifactId - `soabase-web`
+
+TBD

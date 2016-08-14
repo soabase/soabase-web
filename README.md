@@ -27,4 +27,20 @@ Soabase Web is available from Maven Central:
 * GroupId - `io.soabase`
 * ArtifactId - `soabase-web`
 
-TBD
+Soabase Web is a [Dropwizard](http://www.dropwizard.io) bundle. Add the `WebBundle` to your Dropwizard application's bootstrap. `WebBundle` takes two arguments: `ContextFactory` and `ConfigAccessor`.
+
+## ConfigAccessor
+
+You must pass an instance to a `ConfigAccessor` implementation to the `WebBundle` constructor. Soabase Web uses this instance to access its configuration information. `ConfigAccessor` has two methods:
+
+* `getAppConfiguration()`
+* `getAdminConfiguration()`
+
+Both return `WebConfiguration` instance containing configuration info for Soabase Web. See below for the configuration details. `getAdminConfiguration()` returns an Optional. Return an `Optional.empty()` if you don't want a Soabase Web admin implementation.
+
+## ContextFactory
+
+The `ContextFactory` returns a [Handlebars](https://github.com/jknack/handlebars.java) model object for the given request and language. You can return an empty HashMap or any type of object you'd like to use. Note: Soabase web (unless configured not to) will cache the model object for the request URL and language.
+
+## WebConfiguration
+

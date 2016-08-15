@@ -77,7 +77,7 @@ nameStr   Introduzca su nombre
 ...
 ```
 
-### RequestLanguageFactory
+### RequestLanguage and RequestLanguageFactory
 
 `RequestLanguageFactory` and `RequestLanguage` is used to determine the language code for each request. You can add custom RequestLanguageFactory instances using the standard Dropwizard method (see [Polymorphic configuration](http://www.dropwizard.io/1.0.0/docs/manual/configuration.html)). The default implementation, `DefaultRequestLanguageFactory`, uses cookies and query params to store/change the language. It has the following available configuration:
 
@@ -89,3 +89,5 @@ nameStr   Introduzca su nombre
 | validLanguageCodes | empty | Used to limit which language codes are accepted |
 
 The `DefaultRequestLanguageFactory` adds a servlet filter that looks for the configured queryParameterName on every request. If found, the language cookie is set.
+
+The `RequestLanguage` interface is used to return the language code for a request. The `DefaultRequestLanguageFactory` returns the value of the cookie or the default.

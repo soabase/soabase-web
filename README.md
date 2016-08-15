@@ -55,3 +55,7 @@ The `ContextFactory` returns a [Handlebars](https://github.com/jknack/handlebars
 | addRootFilter | true | If true, adds a servlet filter that routes "root" requests (i.e. "/") to the default file | 
 | cacheModels | true | If true, the Handlebars model for a given path and language is cached |
 | requestLanguage | DefaultRequestLanguageFactory | the langauge handler (see below) |
+
+### Language Files
+
+Soabase Web can enhance your Handlebars models with language specific text. This makes it much easier to translate your web application.

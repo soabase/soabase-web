@@ -97,3 +97,9 @@ The `RequestLanguage` interface is used to return the language code for a reques
 In most cases, it doesn't make sense to recreate a Handlebars model on each request. Therefore, Soabase Web supports caching the model.  You can add custom ModelCacheFactory instances using the standard Dropwizard method (see [Polymorphic configuration](http://www.dropwizard.io/1.0.0/docs/manual/configuration.html)). The default factory, `DefaultModelCacheFactory` caches the model for each unique host name and language. 
 
 The `ModelCache` instance is used to return either a cached model or to use the given method to create a new model, cache it, and return it.
+
+### Handlebars Extensions
+
+* The [Handlebars StringHelper](https://github.com/jknack/handlebars.java/blob/master/handlebars/src/main/java/com/github/jknack/handlebars/helper/StringHelpers.java) is automatically added by Soabase Web
+* Language Files (see above)
+* ConcatHelper - makes it easy to concat files together at runtime. Usage: `{{{concat "base-dir" "file-1" ... "file-2"}}}`. All the specified files from the given relative directory are concatenated as if they were a single file

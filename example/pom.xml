@@ -21,7 +21,7 @@
         <dependency>
             <groupId>io.soabase</groupId>
             <artifactId>soabase-web</artifactId>
-            <version>0.1.1-SNAPSHOT</version>
+            <version>0.1.2</version>
         </dependency>
     </dependencies>
 

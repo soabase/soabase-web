@@ -91,3 +91,5 @@ nameStr   Introduzca su nombre
 The `DefaultRequestLanguageFactory` adds a servlet filter that looks for the configured queryParameterName on every request. If found, the language cookie is set.
 
 The `RequestLanguage` interface is used to return the language code for a request. The `DefaultRequestLanguageFactory` returns the value of the cookie or the default.
+
+### ModelCache and ModelCacheFactory

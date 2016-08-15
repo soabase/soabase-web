@@ -36,7 +36,7 @@ You must pass an instance to a `ConfigAccessor` implementation to the `WebBundle
 * `getAppConfiguration()`
 * `getAdminConfiguration()`
 
-Both return `WebConfiguration` instance containing configuration info for Soabase Web. See below for the configuration details. `getAdminConfiguration()` returns an Optional. Return an `Optional.empty()` if you don't want a Soabase Web admin implementation.
+Both return a `WebConfiguration` instance containing configuration info for Soabase Web. See below for the configuration details. `getAdminConfiguration()` returns an Optional. Return an `Optional.empty()` if you don't want a Soabase Web admin implementation.
 
 ### ContextFactory
 

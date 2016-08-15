@@ -53,8 +53,8 @@ The `ContextFactory` returns a [Handlebars](https://github.com/jknack/handlebars
 | textDir | "text" | The directory relative path that contains language files (see below) |
 | assetsFile | null | Path to the directory or zip file with the website assets |
 | addRootFilter | true | If true, adds a servlet filter that routes "root" requests (i.e. "/") to the default file | 
-| modelCache | DefaultModelCacheFactory | The model cache factory (see below) |
 | requestLanguage | DefaultRequestLanguageFactory | the langauge handler (see below) |
+| modelCache | DefaultModelCacheFactory | The model cache factory (see below) |
 
 ### Language Files
 
@@ -76,3 +76,16 @@ nameStr   Introduzca su nombre
 <div>{{nameStr}}</div>
 ...
 ```
+
+### RequestLanguageFactory
+
+`RequestLanguageFactory` and `RequestLanguage` is used to determine the language code for each request. You can add custom RequestLanguageFactory instances using the standard Dropwizard method (see [Polymorphic configuration](http://www.dropwizard.io/1.0.0/docs/manual/configuration.html)). The default implementation, `DefaultRequestLanguageFactory`, uses cookies and query params to store/change the language. It has the following available configuration:
+
+| Field | Default | Description |
+| ----- | ------- | ----------- |
+| cookieName | "soabase_web_langauge"   | The name of the cookie that stores the language code |
+| queryParameterName | "lang" | The name of the query parameter used to change the language |
+| defaultLanguageCode | "en" | The default language code if none is set |
+| validLanguageCodes | empty | Used to limit which language codes are accepted |
+
+The `DefaultRequestLanguageFactory` adds a servlet filter that looks for the configured queryParameterName on every request. If found, the language cookie is set.

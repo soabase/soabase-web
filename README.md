@@ -58,4 +58,21 @@ The `ContextFactory` returns a [Handlebars](https://github.com/jknack/handlebars
 
 ### Language Files
 
-Soabase Web can enhance your Handlebars models with language specific text. This makes it much easier to translate your web application.
+Soabase Web can enhance your Handlebars models with language specific text. This makes it much easier to translate your web application. A language file is a simple text file. The name of the file is `LANG.txt` where LANG is the language code (e.g. `en.txt`). The file format is also simple: each line starts with a key for the text followed by a tab and then the text. The key is added to the Handlebars model on each request with the appropriate value for the request language. E.g.
+
+**en.txt**
+```
+nameStr   Enter your name
+```
+
+**es.txt**
+```
+nameStr   Introduzca su nombre
+```
+
+**index.html**
+```
+...
+<div>{{nameStr}}</div>
+...
+```

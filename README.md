@@ -44,3 +44,14 @@ The `ContextFactory` returns a [Handlebars](https://github.com/jknack/handlebars
 
 ## WebConfiguration
 
+| Field | Default | Description |
+| ----- | ------- | ----------- |
+| debug | false   | If true no files or models are cached |
+| defaultFile | "/index.html" | The path to use when none is specified in the URL |
+| uriPath | "/web" | The base URI path. This portion of the URI is ignored when searching for the file to return |
+| templateExtensions | "js", "html", "htm", "css", "template" | Extensions for files that should be passed through the Handlebars template processor |
+| textDir | "text" | The directory relative path that contains language files (see below) |
+| assetsFile | null | Path to the directory or zip file with the website assets |
+| addRootFilter | true | If true, adds a servlet filter that routes "root" requests (i.e. "/") to the default file | 
+| cacheModels | true | If true, the Handlebars model for a given path and language is cached |
+| requestLanguage | DefaultRequestLanguageFactory | the langauge handler (see below) |

@@ -53,7 +53,7 @@ The `ContextFactory` returns a [Handlebars](https://github.com/jknack/handlebars
 | textDir | "text" | The directory relative path that contains language files (see below) |
 | assetsFile | null | Path to the directory or zip file with the website assets |
 | addRootFilter | true | If true, adds a servlet filter that routes "root" requests (i.e. "/") to the default file | 
-| cacheModels | true | If true, the Handlebars model for a given path and language is cached |
+| ModelCacheFactory | DefaultModelCacheFactory | The model cache factory (see below) |
 | requestLanguage | DefaultRequestLanguageFactory | the langauge handler (see below) |
 
 ### Language Files

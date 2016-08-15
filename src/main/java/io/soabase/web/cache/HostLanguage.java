@@ -13,27 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.soabase.web.context;
+package io.soabase.web.cache;
 
 import com.google.common.base.Preconditions;
 
-class HostLanguage
+public class HostLanguage
 {
     private final String host;
     private final String language;
 
-    HostLanguage(String host, String language)
+    public HostLanguage(String host, String language)
     {
         this.host = Preconditions.checkNotNull(host, "host cannot be null");
         this.language = Preconditions.checkNotNull(language, "language cannot be null");
     }
 
-    String getHost()
+    public String getHost()
     {
         return host;
     }
 
-    String getLanguage()
+    public String getLanguage()
     {
         return language;
     }

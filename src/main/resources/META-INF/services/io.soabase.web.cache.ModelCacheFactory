@@ -1,0 +1,2 @@
+io.soabase.web.cache.DefaultModelCacheFactory
+io.soabase.web.cache.NullModelCacheFactory

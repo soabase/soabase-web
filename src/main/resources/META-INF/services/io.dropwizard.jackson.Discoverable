@@ -1,1 +1,2 @@
 io.soabase.web.language.RequestLanguageFactory
+io.soabase.web.cache.ModelCacheFactory

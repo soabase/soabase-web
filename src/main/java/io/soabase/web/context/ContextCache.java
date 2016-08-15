@@ -17,20 +17,25 @@ package io.soabase.web.context;
 
 import com.github.jknack.handlebars.Context;
 import com.google.common.collect.Maps;
+import io.soabase.web.cache.HostLanguage;
+import io.soabase.web.cache.ModelCache;
+import io.soabase.web.cache.ModelMaker;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.concurrent.ConcurrentMap;
 
-public class ContextCache
+public class ContextCache implements ModelMaker
 {
     private final ConcurrentMap<HostLanguage, Context> cache = Maps.newConcurrentMap();
     private final ContextFactory contextFactory;
+    private final ModelCache modelCache;
     private final TextLoader textLoader;
     private final boolean debug;
 
-    public ContextCache(ContextFactory contextFactory, File assets, String textDir, boolean debug)
+    public ContextCache(ContextFactory contextFactory, File assets, String textDir, boolean debug, ModelCache modelCache)
     {
         this.contextFactory = contextFactory;
+        this.modelCache = modelCache;
         this.textLoader = new TextLoader(assets, textDir, debug);
         this.debug = debug;
     }
@@ -38,16 +43,14 @@ public class ContextCache
     public Context getContext(HttpServletRequest request, String languageCode)
     {
         HostLanguage hostLanguage = new HostLanguage(request.getServerName(), languageCode);
-        if ( debug )
-        {
-            return makeLanguageContext(request, hostLanguage);
-        }
-        return cache.computeIfAbsent(hostLanguage, x -> makeLanguageContext(request, hostLanguage));
+        Object model = debug ? createModel(request, hostLanguage) : modelCache.getModel(request, hostLanguage, this);
+        Context context = Context.newContext(model);
+        return Context.newContext(context, textLoader.getFor(hostLanguage.getLanguage()));
     }
 
-    private Context makeLanguageContext(HttpServletRequest request, HostLanguage hostLanguage)
+    @Override
+    public Object createModel(HttpServletRequest request, HostLanguage hostLanguage)
     {
-        Context context = Context.newContext(contextFactory.getModel(request, hostLanguage.getLanguage()));
-        return Context.newContext(context, textLoader.getFor(hostLanguage.getLanguage()));
+        return contextFactory.getModel(request, hostLanguage.getLanguage());
     }
 }

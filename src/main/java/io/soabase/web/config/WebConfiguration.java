@@ -16,6 +16,8 @@
 package io.soabase.web.config;
 
 import com.google.common.collect.Sets;
+import io.soabase.web.cache.DefaultModelCacheFactory;
+import io.soabase.web.cache.ModelCacheFactory;
 import io.soabase.web.language.DefaultRequestLanguageFactory;
 import io.soabase.web.language.RequestLanguageFactory;
 import javax.validation.Valid;
@@ -43,6 +45,10 @@ public class WebConfiguration
     public File assetsFile = null;
 
     public boolean addRootFilter = true;
+
+    @NotNull
+    @Valid
+    public ModelCacheFactory modelCache = new DefaultModelCacheFactory();
 
     @NotNull
     @Valid

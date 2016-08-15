@@ -81,7 +81,7 @@ public class WebBundle<T extends Configuration> implements ConfiguredBundle<T>
     {
         ServletEnvironment servlets = isAdmin ? environment.admin() : environment.servlets();
         requestLanguage = configuration.requestLanguage.buildAndInstall(environment, servlets);
-        assetServlet = new InternalAssetServlet(configuration, contextFactory, requestLanguage);
+        assetServlet = new InternalAssetServlet(configuration, contextFactory, requestLanguage, environment);
         servlets.addServlet("soabase-web-asset-servlet", assetServlet).addMapping(configuration.uriPath + "/*");
         if ( configuration.addRootFilter )
         {

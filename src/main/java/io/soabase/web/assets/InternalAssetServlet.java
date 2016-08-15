@@ -24,6 +24,7 @@ import com.google.common.io.CharStreams;
 import com.google.common.io.Files;
 import com.google.common.net.MediaType;
 import io.dropwizard.servlets.assets.AssetServlet;
+import io.dropwizard.setup.Environment;
 import io.soabase.web.config.WebConfiguration;
 import io.soabase.web.context.ContextCache;
 import io.soabase.web.context.ContextFactory;
@@ -49,7 +50,7 @@ public class InternalAssetServlet extends AssetServlet
     private final WebTemplateLoader templateLoader;
     private final ContextCache contextCache;
 
-    public InternalAssetServlet(WebConfiguration configuration, ContextFactory contextFactory, RequestLanguage requestLanguage)
+    public InternalAssetServlet(WebConfiguration configuration, ContextFactory contextFactory, RequestLanguage requestLanguage, Environment environment)
     {
         super("/", configuration.uriPath, configuration.defaultFile.substring(1), Charsets.UTF_8);
         this.configuration = configuration;
@@ -73,7 +74,7 @@ public class InternalAssetServlet extends AssetServlet
         StringHelpers.register(handlebars);
         handlebars.registerHelper("concat", new ConcatHelper(this::getTemplate));
 
-        contextCache = new ContextCache(contextFactory, assetsFile, configuration.textDir, configuration.debug);
+        contextCache = new ContextCache(contextFactory, assetsFile, configuration.textDir, configuration.debug, configuration.modelCache.build(environment));
     }
 
     public Handlebars getHandlebars()

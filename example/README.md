@@ -14,5 +14,7 @@ This is a simple web example showing the features of Soabase Web.
 
 * The example runs in debug mode so you can make changes to the files in the `app` directory and see them immediately
 * Note the language feature - change the language using the buttons
+* Uses Soabase Web's concat helper
+* Technique for having language specific assets
 
 

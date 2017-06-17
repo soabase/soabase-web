@@ -77,11 +77,16 @@ public class WebBundle<T extends Configuration> implements ConfiguredBundle<T>
         return requestLanguage;
     }
 
+    protected InternalAssetServlet newInternalAssetServlet(Environment environment, WebConfiguration configuration, ContextFactory contextFactory, RequestLanguage requestLanguage)
+    {
+        return new InternalAssetServlet(configuration, contextFactory, requestLanguage, environment);
+    }
+
     private void addServlet(Environment environment, WebConfiguration configuration, boolean isAdmin)
     {
         ServletEnvironment servlets = isAdmin ? environment.admin() : environment.servlets();
         requestLanguage = configuration.requestLanguage.buildAndInstall(environment, servlets);
-        assetServlet = new InternalAssetServlet(configuration, contextFactory, requestLanguage, environment);
+        assetServlet = newInternalAssetServlet(environment, configuration, contextFactory, requestLanguage);
         servlets.addServlet("soabase-web-asset-servlet", assetServlet).addMapping(configuration.uriPath + "/*");
         if ( configuration.addRootFilter )
         {

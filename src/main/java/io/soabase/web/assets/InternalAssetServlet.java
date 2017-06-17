@@ -85,7 +85,7 @@ public class InternalAssetServlet extends AssetServlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        String path = (request.getPathInfo() != null) ? request.getPathInfo() : configuration.defaultFile;
+        String path = pathFromRequest(request);
         String pathExtension = Files.getFileExtension(path);
         if ( configuration.templateExtensions.contains(pathExtension) )
         {
@@ -95,6 +95,11 @@ public class InternalAssetServlet extends AssetServlet
         {
             super.doGet(request, response);
         }
+    }
+
+    protected String pathFromRequest(HttpServletRequest request)
+    {
+        return (request.getPathInfo() != null) ? request.getPathInfo() : configuration.defaultFile;
     }
 
     private void serveTemplate(HttpServletRequest request, HttpServletResponse response, String path)
